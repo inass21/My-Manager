@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Détails Examen</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f0ff;
+      padding: 20px;
+      margin: 0;
+    }
+    .card {
+      max-width: 500px;
+      margin: 40px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #8e44ad;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 16px;
+      margin: 12px 0;
+    }
+    strong {
+      color: #8e44ad;
+    }
+    button {
+      display: inline-block;
+      margin: 15px 5px 0;
+      padding: 10px 25px;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+    .btn-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .btn-pdf {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+    }
+    .btn-pdf:hover {
+      background: linear-gradient(135deg, #c0392b, #a93226);
+      transform: translateY(-2px);
+    }
+    .btn-print {
+      background: linear-gradient(135deg, #8e44ad, #7d3c98);
+    }
+    .btn-print:hover {
+      background: linear-gradient(135deg, #7d3c98, #6c3483);
+      transform: translateY(-2px);
+    }
+    .back-btn {
+      background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+    }
+    .back-btn:hover {
+      background: linear-gradient(135deg, #7f8c8d, #6c7a7b);
+      transform: translateY(-2px);
+    }
+    @media print {
+      body { background: white; padding: 0; }
+      .card { box-shadow: none; margin: 0; padding: 20px; border: 1px solid #ddd; }
+      button { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Détails de l'Examen</h2>
+    <p><strong>Cours :</strong> <span id="course">—</span></p>
+    <p><strong>Date :</strong> <span id="date">—</span></p>
+    <p><strong>Salle :</strong> <span id="room">—</span></p>
+    
+    <div class="btn-container">
+      <button class="btn-pdf" onclick="exportPDF()">Export PDF</button>
+      <button class="btn-print" onclick="window.print()">Imprimer</button>
+      <button class="back-btn" onclick="goBack()">← Retour</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/i18n.js"></script>
+  
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById("course").textContent = params.get("course") || "—";
+    document.getElementById("date").textContent = params.get("date") || "—";
+    document.getElementById("room").textContent = params.get("room") || "—";
+
+    function exportPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      const course = document.getElementById("course").textContent;
+      const date = document.getElementById("date").textContent;
+      const room = document.getElementById("room").textContent;
+      
+      // En-tête
+      doc.setFillColor(142, 68, 173);
+      doc.rect(0, 0, 210, 35, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(22);
+      doc.text("MyManager", 105, 15, { align: "center" });
+      doc.setFontSize(12);
+      doc.text("Système de Gestion Scolaire", 105, 25, { align: "center" });
+      
+      // Titre
+      doc.setTextColor(142, 68, 173);
+      doc.setFontSize(18);
+      doc.text("Détails de l'Examen", 105, 50, { align: "center" });
+      
+      // Ligne
+      doc.setDrawColor(142, 68, 173);
+      doc.line(20, 55, 190, 55);
+      
+      // Infos
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(12);
+      doc.text("Cours : " + course, 20, 75);
+      doc.text("Date : " + date, 20, 90);
+      doc.text("Salle : " + room, 20, 105);
+      
+      // Footer
+      doc.setFontSize(10);
+      doc.setTextColor(150, 150, 150);
+      doc.text("Généré le " + new Date().toLocaleDateString('fr-FR'), 105, 280, { align: "center" });
+      doc.text("MyManager © 2026", 105, 287, { align: "center" });
+      
+      doc.save("examen_" + course.replace(/\s+/g, '_') + ".pdf");
+      alert(' PDF exporté avec succès !');
+    }
+
+    function goBack() {
+      window.location.href = 'exams.html';
+    }
+  </script>
+</body>
+</html>

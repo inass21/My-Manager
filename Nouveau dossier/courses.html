@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyManager - Cours</title>
+  <link rel="stylesheet" href="css/courses.css" />
+  <link rel="stylesheet" href="css/rtl.css" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">MyManager</div>
+    <div class="nav-right">
+      <div class="lang-selector">
+        <select onchange="changeLang(this.value)">
+          <option value="fr">🇫🇷 Français</option>
+          <option value="ar">🇲🇦 العربية</option>
+          <option value="en">🇺🇸 English</option>
+        </select>
+      </div>
+      <button onclick="logout()" class="logout-btn" data-i18n="logout">Logout</button>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="dashboard.html" data-i18n="dashboard">Dashboard</a></li>
+      <li><a href="students.html" data-i18n="students">Students</a></li>
+      <li><a href="teachers.html" data-i18n="teachers">Teachers</a></li>
+      <li><a href="courses.html" class="active" data-i18n="courses">Courses</a></li>
+      <li><a href="rooms.html" data-i18n="rooms">Rooms</a></li>
+      <li><a href="exams.html" data-i18n="exams">Exams</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <h1 data-i18n="courseManagement">Gestion des Cours</h1>
+
+    <form id="courseForm">
+      <input type="hidden" id="courseId" />
+      <input type="text" id="courseName" data-i18n-placeholder="coursePlaceholder" placeholder="Nom du cours" required />
+      <input type="text" id="courseTeacher" data-i18n-placeholder="teacherPlaceholder" placeholder="Professeur" required />
+      <input type="text" id="courseSchedule" data-i18n-placeholder="schedulePlaceholder" placeholder="Horaire (ex: Lundi 10h-12h)" required />
+      <button type="submit" data-i18n="save">Ajouter / Modifier</button>
+    </form>
+
+    <div class="tools">
+      <input type="text" id="searchInput" data-i18n-placeholder="searchPlaceholder" placeholder="Rechercher par nom..." />
+      <button type="button" onclick="sortByName()" data-i18n="sort">Trier A ↔ Z</button>
+      <button type="button" onclick="exportCSV()" data-i18n="exportCSV">Export CSV</button>
+    </div>
+
+    <div class="filters">
+      <label data-i18n="filterByTeacher">Filtrer par professeur:</label>
+      <select id="teacherFilter" onchange="applyFilters()">
+        <option value="" data-i18n-value="allTeachers">Tous les professeurs</option>
+        <option value="Ali Benali">Ali Benali</option>
+        <option value="Sara Meziane">Sara Meziane</option>
+        <option value="Youssef Tazi">Youssef Tazi</option>
+        <option value="Leila Rahmani">Leila Rahmani</option>
+        <option value="Karim El Fassi">Karim El Fassi</option>
+      </select>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th data-i18n="course">Cours</th>
+          <th data-i18n="teacher">Professeur</th>
+          <th data-i18n="schedule">Horaire</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+
+    <div class="pagination">
+      <button onclick="prevPage()" data-i18n="previous">Précédent</button>
+      <span id="pageInfo">Page 1</span>
+      <button onclick="nextPage()" data-i18n="next">Suivant</button>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+   <script src="js/models.js"></script>
+<script src="js/permissions.js"></script> 
+<script src="js/i18n.js"></script>
+  <script src="js/courses.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

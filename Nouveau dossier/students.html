@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyManager - Étudiants</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/students.css" />
+  <link rel="stylesheet" href="css/rtl.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">MyManager</div>
+    <div class="nav-right">
+      <select onchange="changeLang(this.value)">
+        <option value="fr">🇫🇷 Français</option>
+        <option value="ar">🇲🇦 العربية</option>
+        <option value="en">🇺🇸 English</option>
+      </select>
+      <button onclick="logout()" class="logout-btn" data-i18n="logout">Déconnexion</button>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <ul class="sidebar-menu">
+      <li><a href="dashboard.html" data-i18n="dashboard">Dashboard</a></li>
+      <li><a href="students.html" class="active" data-i18n="students">Étudiants</a></li>
+      <li><a href="teachers.html" data-i18n="teachers">Professeurs</a></li>
+      <li><a href="courses.html" data-i18n="courses">Cours</a></li>
+      <li><a href="rooms.html" data-i18n="rooms">Salles</a></li>
+      <li><a href="exams.html" data-i18n="exams">Examens</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <h1 data-i18n="studentManagement">Gestion des Étudiants</h1>
+
+    <!-- Formulaire -->
+    <form id="studentForm">
+      <input type="hidden" id="studentId" />
+      <input type="text" id="studentName" 
+             data-i18n-placeholder="namePlaceholder"
+             placeholder="Nom et prénom" required />
+      <input type="email" id="studentEmail" 
+             data-i18n-placeholder="emailPlaceholder"
+             placeholder="Email" required />
+      <input type="text" id="studentClass" 
+             data-i18n-placeholder="classPlaceholder"
+             placeholder="Classe" required />
+      <button type="submit" data-i18n="save">Enregistrer</button>
+    </form>
+
+    <!-- Filtres -->
+    <div class="filters">
+      <label data-i18n="filterByClass">Filtrer par classe:</label>
+      <select id="classFilter" onchange="applyFilters()">
+        <option value="" data-i18n-value="allClasses">Toutes les classes</option>
+        <option value="1ère année">1ère année</option>
+        <option value="2ème année">2ème année</option>
+        <option value="3ème année">3ème année</option>
+      </select>
+    </div>
+
+    <!-- Outils -->
+    <div class="tools">
+      <input type="text" id="searchInput" 
+             data-i18n-placeholder="searchPlaceholder"
+             placeholder="Rechercher par nom..." />
+      <button type="button" onclick="sortByName()" data-i18n="sort">Trier A ↔ Z</button>
+      <button type="button" onclick="exportCSV()" data-i18n="exportCSV">Export CSV</button>
+      
+    </div>
+
+    <!-- Tableau -->
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th data-i18n="name">Nom</th>
+          <th data-i18n="email">Email</th>
+          <th data-i18n="class">Classe</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <button onclick="prevPage()" data-i18n="previous">Précédent</button>
+      <span id="pageInfo">Page 1</span>
+      <button onclick="nextPage()" data-i18n="next">Suivant</button>
+    </div>
+  </main>
+
+
+   <script src="js/models.js"></script>
+  <script src="js/permissions.js"></script> 
+  <script src="js/i18n.js"></script>
+  <script src="js/students.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - MyManager</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/rtl.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/navbar-logs.css" />
+</head>
+<script src="js/navbar-admin.js"></script>
+<body>
+ 
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">MyManager</div>
+    <div class="nav-right">
+      <a href="logs.html" id="logsNavBtn" style="display:none;"> Logs</a>
+      <div class="lang-selector">
+        <select onchange="changeLang(this.value)">
+          <option value="fr">🇫🇷 Français</option>
+          <option value="ar">🇲🇦 العربية</option>
+          <option value="en">🇺🇸 English</option>
+        </select>
+      </div>
+      <button onclick="logout()" class="logout-btn" data-i18n="logout">Déconnexion</button>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">MyManager</div>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="dashboard.html" class="active" data-i18n="dashboard">Dashboard</a></li>
+      <li><a href="students.html" data-i18n="students">Étudiants</a></li>
+      <li><a href="teachers.html" data-i18n="teachers">Professeurs</a></li>
+      <li><a href="courses.html" data-i18n="courses">Cours</a></li>
+      <li><a href="rooms.html" data-i18n="rooms">Salles</a></li>
+      <li><a href="exams.html" data-i18n="exams">Examens</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <h1 data-i18n="dashboard">Tableau de Bord</h1>
+    <!-- Filtres Dashboard -->
+    <div class="dashboard-filters" style="margin: 20px 0; padding: 15px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+      <label>
+        <strong>Filtrer par classe :</strong>
+        <select id="dashboardClassFilter" onchange="applyDashboardFilters()" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; margin-left: 10px;">
+          <option value="">Toutes les classes</option>
+          <option value="1ère année">1ère année</option>
+          <option value="2ème année">2ème année</option>
+          <option value="3ème année">3ème année</option>
+        </select>
+      </label>
+      
+      <label>
+        <strong>Filtrer par mois :</strong>
+        <select id="dashboardMonthFilter" onchange="applyDashboardFilters()" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; margin-left: 10px;">
+          <option value="">Tous les mois</option>
+          <option value="01">Janvier</option>
+          <option value="02">Février</option>
+          <option value="03">Mars</option>
+          <option value="04">Avril</option>
+          <option value="05">Mai</option>
+          <option value="06">Juin</option>
+          <option value="07">Juillet</option>
+          <option value="08">Août</option>
+          <option value="09">Septembre</option>
+          <option value="10">Octobre</option>
+          <option value="11">Novembre</option>
+          <option value="12">Décembre</option>
+        </select>
+      </label>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="stats-cards">
+      <div class="card">
+        <h3 data-i18n="students">Étudiants</h3>
+        <p id="totalStudents">0</p>
+      </div>
+      <div class="card">
+        <h3 data-i18n="teachers">Professeurs</h3>
+        <p id="totalTeachers">0</p>
+      </div>
+      <div class="card">
+        <h3 data-i18n="courses">Cours</h3>
+        <p id="totalCourses">0</p>
+      </div>
+      <div class="card">
+        <h3 data-i18n="rooms">Salles</h3>
+        <p id="totalRooms">0</p>
+      </div>
+      <div class="card">
+        <h3 data-i18n="exams">Examens</h3>
+        <p id="totalExams">0</p>
+      </div>
+    </div>
+<!-- Panneau de Statistiques Avancées -->
+<div class="advanced-stats-section">
+  <h2 class="section-title"> Statistiques Avancées</h2>
+  
+  <div class="stats-grid">
+    <!-- Stat 1: Taux de présence -->
+    <div class="stat-card">
+      <div class="stat-icon"></div>
+      <div class="stat-content">
+        <div class="stat-label">Taux de Réussite</div>
+        <div class="stat-value" id="successRate">0%</div>
+        <div class="stat-trend positive">
+          <span class="trend-arrow">↑</span>
+          <span class="trend-value">+5.2%</span>
+        </div>
+      </div>
+      <div class="stat-progress">
+        <div class="progress-bar" id="successProgress" style="width: 0%"></div>
+      </div>
+    </div>
+    
+    <!-- Stat 2: Examens à venir -->
+    <div class="stat-card">
+      <div class="stat-icon">📅</div>
+      <div class="stat-content">
+        <div class="stat-label">Examens à Venir</div>
+        <div class="stat-value" id="upcomingExams">0</div>
+        <div class="stat-trend neutral">
+          <span class="trend-arrow">→</span>
+          <span class="trend-value">Cette semaine</span>
+        </div>
+      </div>
+      <div class="stat-progress">
+        <div class="progress-bar warning" id="examProgress" style="width: 0%"></div>
+      </div>
+    </div>
+    
+    <!-- Stat 3: Occupation des salles -->
+    <div class="stat-card">
+      <div class="stat-icon">🏢</div>
+      <div class="stat-content">
+        <div class="stat-label">Occupation Salles</div>
+        <div class="stat-value" id="roomOccupancy">0%</div>
+        <div class="stat-trend negative">
+          <span class="trend-arrow">↓</span>
+          <span class="trend-value">-2.1%</span>
+        </div>
+      </div>
+      <div class="stat-progress">
+        <div class="progress-bar danger" id="roomProgress" style="width: 0%"></div>
+      </div>
+    </div>
+    
+    <!-- Stat 4: Ratio Étudiants/Professeurs -->
+    <div class="stat-card">
+      <div class="stat-icon">👥</div>
+      <div class="stat-content">
+        <div class="stat-label">Ratio Étudiant/Prof</div>
+        <div class="stat-value" id="studentRatio">0:1</div>
+        <div class="stat-trend positive">
+          <span class="trend-arrow">✓</span>
+          <span class="trend-value">Optimal</span>
+        </div>
+      </div>
+      <div class="stat-progress">
+        <div class="progress-bar success" id="ratioProgress" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Timeline des événements récents -->
+  <div class="activity-timeline">
+    <h3 class="timeline-title"> Activité Récente</h3>
+    <div id="timelineContainer">
+      <!-- Généré dynamiquement -->
+    </div>
+  </div>
+</div>
+
+    <!-- Graphiques -->
+    <div class="charts-container">
+      <div class="chart-box">
+        <h3 data-i18n="courseDistribution">Répartition des Cours par Matière</h3>
+        <canvas id="pieChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <h3 data-i18n="studentsByClass">Nombre d'Étudiants par Classe</h3>
+        <canvas id="barChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <h3 data-i18n="roomCapacity">Capacité des Salles</h3>
+        <canvas id="scatterChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <h3 data-i18n="examsByMonth">Examens par Mois</h3>
+        <canvas id="lineChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <h3 data-i18n="roomTypes">Types de Salles</h3>
+        <canvas id="donutChart"></canvas>
+      </div>
+    </div>
+  </main>
+
+<link rel="stylesheet" href="css/advanced-stats.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="js/models.js"></script>  
+<script src="js/permissions.js"></script>
+<script src="js/i18n.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/dashboard.js"></script>  
+<script src="js/advanced-stats.js"></script> 
+<script src="js/main.js"></script>       
+</html>

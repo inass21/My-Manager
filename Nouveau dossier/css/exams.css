@@ -1,0 +1,100 @@
+form#examForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+form#examForm input,
+form#examForm button {
+  padding: 10px;
+  flex: 1 1 180px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form#examForm button {
+  background-color: #d35400;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+form#examForm button:hover { background-color: #c0392b; }
+
+.tools {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.tools input,
+.tools button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  background-color: #fff;
+  border-collapse: collapse;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th { background-color: #d35400; color: white; }
+
+tr:nth-child(even) { background-color: #fdf2e9; }
+
+button.edit { background-color: #28b463; }
+button.delete { background-color: #e74c3c; }
+button.details { background-color: #8e44ad; }
+
+button.edit,
+button.delete,
+button.details {
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.pagination {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.pagination button {
+  padding: 8px 15px;
+  margin: 0 5px;
+  background-color: #d35400;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  form#examForm,
+  .tools {
+    flex-direction: column;
+  }
+  form#examForm input,
+  .tools input,
+  .tools button {
+    width: 100%;
+  }
+}

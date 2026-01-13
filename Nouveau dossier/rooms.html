@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyManager - Salles</title>
+  <link rel="stylesheet" href="css/rooms.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/rtl.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">MyManager</div>
+    <div class="nav-right">
+      <div class="lang-selector">
+        <select onchange="changeLang(this.value)">
+          <option value="fr">🇫🇷 Français</option>
+          <option value="ar">🇲🇦 العربية</option>
+          <option value="en">🇺🇸 English</option>
+        </select>
+      </div>
+      <button onclick="logout()" class="logout-btn" data-i18n="logout">Déconnexion</button>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="dashboard.html" data-i18n="dashboard">Dashboard</a></li>
+      <li><a href="students.html" data-i18n="students">Étudiants</a></li>
+      <li><a href="teachers.html" data-i18n="teachers">Professeurs</a></li>
+      <li><a href="courses.html" data-i18n="courses">Cours</a></li>
+      <li><a href="rooms.html" class="active" data-i18n="rooms">Salles</a></li>
+      <li><a href="exams.html" data-i18n="exams">Examens</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <h1 data-i18n="roomManagement">Gestion des Salles</h1>
+
+    <form id="roomForm">
+      <input type="hidden" id="roomId" />
+      <input type="text" id="roomName" 
+             data-i18n-placeholder="roomNamePlaceholder"
+             placeholder="Nom/Numéro de la salle" required />
+      <input type="number" id="roomCapacity" 
+             data-i18n-placeholder="capacityPlaceholder"
+             placeholder="Capacité (ex: 30)" min="1" required />
+      <input type="text" id="roomLocation" 
+             data-i18n-placeholder="locationPlaceholder"
+             placeholder="Localisation (ex: Bâtiment A)" required />
+      <button type="submit" data-i18n="save">Ajouter / Modifier</button>
+    </form>
+
+    <div class="tools">
+      <input type="text" id="searchInput" 
+             data-i18n-placeholder="searchPlaceholder"
+             placeholder="Rechercher par nom..." />
+      <button type="button" onclick="sortByName()" data-i18n="sort">Trier A ↔ Z</button>
+      <button type="button" onclick="exportCSV()" data-i18n="exportCSV">Export CSV</button>
+    </div>
+
+    <div class="filters">
+      <label data-i18n="filterByBuilding">Filtrer par bâtiment:</label>
+      <select id="locationFilter" onchange="applyFilters()">
+        <option value="" data-i18n-value="allBuildings">Tous les bâtiments</option>
+        <option value="Bâtiment A">Bâtiment A</option>
+        <option value="Bâtiment B">Bâtiment B</option>
+        <option value="Bâtiment C">Bâtiment C</option>
+        <option value="Bâtiment D">Bâtiment D</option>
+        <option value="Bâtiment Principal">Bâtiment Principal</option>
+      </select>
+      
+      <label data-i18n="filterByCapacity">Filtrer par capacité:</label>
+      <select id="capacityFilter" onchange="applyFilters()">
+        <option value="" data-i18n-value="allCapacities">Toutes capacités</option>
+        <option value="small" data-i18n-value="smallCapacity">Petite (< 30)</option>
+        <option value="medium" data-i18n-value="mediumCapacity">Moyenne (30-50)</option>
+        <option value="large" data-i18n-value="largeCapacity">Grande (> 50)</option>
+      </select>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th data-i18n="room">Salle</th>
+          <th data-i18n="capacity">Capacité</th>
+          <th data-i18n="location">Localisation</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+
+    <div class="pagination">
+      <button onclick="prevPage()" data-i18n="previous">Précédent</button>
+      <span id="pageInfo">Page 1</span>
+      <button onclick="nextPage()" data-i18n="next">Suivant</button>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+   <script src="js/models.js"></script>
+  <script src="js/permissions.js"></script> 
+  <script src="js/i18n.js"></script>
+  <script src="js/rooms.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

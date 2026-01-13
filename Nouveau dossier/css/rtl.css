@@ -1,0 +1,266 @@
+/* ============================================
+   RTL (Right-to-Left) Support pour l'Arabe
+   ============================================ */
+
+[lang="ar"] body,
+body[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ============================================
+   NAVBAR RTL
+   ============================================ */
+[lang="ar"] .navbar,
+body[dir="rtl"] .navbar {
+  direction: rtl;
+}
+
+[lang="ar"] .navbar .logo,
+body[dir="rtl"] .navbar .logo {
+  float: right;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+[lang="ar"] .navbar .nav-right,
+body[dir="rtl"] .navbar .nav-right {
+  float: left;
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[lang="ar"] .navbar .nav-left,
+body[dir="rtl"] .navbar .nav-left {
+  float: right;
+}
+
+[lang="ar"] .navbar .nav-links,
+body[dir="rtl"] .navbar .nav-links {
+  float: right;
+  direction: rtl;
+}
+
+[lang="ar"] .navbar .nav-links a,
+body[dir="rtl"] .navbar .nav-links a {
+  margin-left: 0;
+  margin-right: 20px;
+}
+
+[lang="ar"] .navbar .nav-actions,
+body[dir="rtl"] .navbar .nav-actions {
+  direction: rtl;
+}
+
+[lang="ar"] .lang-selector,
+body[dir="rtl"] .lang-selector {
+  margin-left: 0;
+  margin-right: 15px;
+}
+
+/* ============================================
+   SIDEBAR RTL
+   ============================================ */
+[lang="ar"] .sidebar,
+body[dir="rtl"] .sidebar {
+  left: auto;
+  right: 0;
+  direction: rtl;
+}
+
+[lang="ar"] .sidebar-menu,
+body[dir="rtl"] .sidebar-menu {
+  text-align: right;
+  padding-right: 0;
+  padding-left: 20px;
+}
+
+[lang="ar"] .sidebar-menu li,
+body[dir="rtl"] .sidebar-menu li {
+  text-align: right;
+}
+
+[lang="ar"] .sidebar-menu a,
+body[dir="rtl"] .sidebar-menu a {
+  padding-left: 10px;
+  padding-right: 20px;
+}
+
+/* ============================================
+   MAIN CONTENT RTL
+   ============================================ */
+[lang="ar"] .main-content,
+body[dir="rtl"] .main-content {
+  margin-right: 250px;
+  margin-left: 0;
+  direction: rtl;
+}
+
+/* ============================================
+   FORMS RTL
+   ============================================ */
+[lang="ar"] form,
+body[dir="rtl"] form {
+  direction: rtl;
+}
+
+[lang="ar"] input,
+[lang="ar"] select,
+[lang="ar"] textarea,
+body[dir="rtl"] input,
+body[dir="rtl"] select,
+body[dir="rtl"] textarea {
+  text-align: right;
+  direction: rtl;
+}
+
+[lang="ar"] input::placeholder,
+body[dir="rtl"] input::placeholder {
+  text-align: right;
+}
+
+/* ============================================
+   BUTTONS RTL
+   ============================================ */
+[lang="ar"] button,
+body[dir="rtl"] button {
+  direction: rtl;
+}
+
+/* ============================================
+   TABLES RTL
+   ============================================ */
+[lang="ar"] table,
+body[dir="rtl"] table {
+  direction: rtl;
+}
+
+[lang="ar"] th,
+[lang="ar"] td,
+body[dir="rtl"] th,
+body[dir="rtl"] td {
+  text-align: right;
+}
+
+[lang="ar"] th:first-child,
+[lang="ar"] td:first-child,
+body[dir="rtl"] th:first-child,
+body[dir="rtl"] td:first-child {
+  text-align: right;
+}
+
+/* ============================================
+   TOOLS & FILTERS RTL
+   ============================================ */
+[lang="ar"] .tools,
+[lang="ar"] .filters,
+body[dir="rtl"] .tools,
+body[dir="rtl"] .filters {
+  direction: rtl;
+}
+
+[lang="ar"] .tools input,
+[lang="ar"] .filters input,
+[lang="ar"] .tools select,
+[lang="ar"] .filters select,
+body[dir="rtl"] .tools input,
+body[dir="rtl"] .filters input,
+body[dir="rtl"] .tools select,
+body[dir="rtl"] .filters select {
+  margin-left: 0;
+  margin-right: 10px;
+}
+
+/* ============================================
+   PAGINATION RTL
+   ============================================ */
+[lang="ar"] .pagination,
+body[dir="rtl"] .pagination {
+  direction: rtl;
+}
+
+[lang="ar"] .pagination button:first-child,
+body[dir="rtl"] .pagination button:first-child {
+  margin-left: 10px;
+  margin-right: 0;
+}
+
+/* ============================================
+   CARDS & STATS RTL
+   ============================================ */
+[lang="ar"] .stats-cards,
+body[dir="rtl"] .stats-cards {
+  direction: rtl;
+}
+
+[lang="ar"] .card,
+body[dir="rtl"] .card {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ============================================
+   CHARTS RTL
+   ============================================ */
+[lang="ar"] .charts-container,
+body[dir="rtl"] .charts-container {
+  direction: rtl;
+}
+
+[lang="ar"] .chart-box,
+body[dir="rtl"] .chart-box {
+  direction: ltr; /* Les graphiques restent en LTR */
+}
+
+[lang="ar"] .chart-box h3,
+body[dir="rtl"] .chart-box h3 {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ============================================
+   DASHBOARD FILTERS RTL
+   ============================================ */
+[lang="ar"] .dashboard-filters,
+body[dir="rtl"] .dashboard-filters {
+  direction: rtl;
+}
+
+[lang="ar"] .dashboard-filters label,
+body[dir="rtl"] .dashboard-filters label {
+  margin-left: 10px;
+  margin-right: 0;
+}
+
+/* ============================================
+   LOGIN PAGE RTL
+   ============================================ */
+[lang="ar"] .login-container,
+body[dir="rtl"] .login-container {
+  direction: rtl;
+}
+
+[lang="ar"] .lang-selector-login,
+body[dir="rtl"] .lang-selector-login {
+  direction: rtl;
+}
+
+
+@media (max-width: 768px) {
+  [lang="ar"] .sidebar,
+  body[dir="rtl"] .sidebar {
+    right: -250px;
+    left: auto;
+  }
+  
+  [lang="ar"] .main-content,
+  body[dir="rtl"] .main-content {
+    margin-right: 0;
+    margin-left: 0;
+  }
+  
+  [lang="ar"] .navbar .nav-right,
+  body[dir="rtl"] .navbar .nav-right {
+    flex-direction: row-reverse;
+  }
+}

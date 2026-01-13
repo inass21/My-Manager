@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyManager - Examens</title>
+  <link rel="stylesheet" href="css/exams.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/rtl.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">MyManager</div>
+    <div class="nav-right">
+      <div class="lang-selector">
+        <select onchange="changeLang(this.value)">
+          <option value="fr">🇫🇷 Français</option>
+          <option value="ar">🇲🇦 العربية</option>
+          <option value="en">🇺🇸 English</option>
+        </select>
+      </div>
+      <button onclick="logout()" class="logout-btn" data-i18n="logout">Déconnexion</button>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="dashboard.html" data-i18n="dashboard">Dashboard</a></li>
+      <li><a href="students.html" data-i18n="students">Étudiants</a></li>
+      <li><a href="teachers.html" data-i18n="teachers">Professeurs</a></li>
+      <li><a href="courses.html" data-i18n="courses">Cours</a></li>
+      <li><a href="rooms.html" data-i18n="rooms">Salles</a></li>
+      <li><a href="exams.html" class="active" data-i18n="exams">Examens</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <h1 data-i18n="examManagement">Gestion des Examens</h1>
+
+    <form id="examForm">
+      <input type="hidden" id="examId" />
+      <input type="text" id="examCourse" 
+             data-i18n-placeholder="coursePlaceholder"
+             placeholder="Cours" required />
+      <input type="text" id="examDate" 
+             data-i18n-placeholder="datePlaceholder"
+             placeholder="Date (ex: 15/01/2026)" required />
+      <input type="text" id="examRoom" 
+             data-i18n-placeholder="roomPlaceholder"
+             placeholder="Salle" required />
+      <button type="submit" data-i18n="save">Ajouter / Modifier</button>
+    </form>
+
+    <div class="tools">
+      <input type="text" id="searchInput" 
+             data-i18n-placeholder="searchPlaceholder"
+             placeholder="Rechercher par cours..." />
+      <button type="button" onclick="sortByCourse()" data-i18n="sort">Trier A ↔ Z</button>
+      <button type="button" onclick="exportCSV()" data-i18n="exportCSV">Export CSV</button>
+    </div>
+
+    <div class="filters">
+      <label data-i18n="filterByMonth">Filtrer par mois:</label>
+      <select id="monthFilter" onchange="applyFilters()">
+        <option value="" data-i18n-value="allMonths">Tous les mois</option>
+        <option value="01" data-i18n-value="january">Janvier</option>
+        <option value="02" data-i18n-value="february">Février</option>
+        <option value="03" data-i18n-value="march">Mars</option>
+        <option value="04" data-i18n-value="april">Avril</option>
+        <option value="05" data-i18n-value="may">Mai</option>
+        <option value="06" data-i18n-value="june">Juin</option>
+        <option value="07" data-i18n-value="july">Juillet</option>
+        <option value="08" data-i18n-value="august">Août</option>
+        <option value="09" data-i18n-value="september">Septembre</option>
+        <option value="10" data-i18n-value="october">Octobre</option>
+        <option value="11" data-i18n-value="november">Novembre</option>
+        <option value="12" data-i18n-value="december">Décembre</option>
+      </select>
+      
+      <label data-i18n="filterByCourse">Filtrer par cours:</label>
+      <select id="courseFilter" onchange="applyFilters()">
+        <option value="" data-i18n-value="allCourses">Tous les cours</option>
+        <option value="Mathématiques">Mathématiques</option>
+        <option value="Physique">Physique</option>
+        <option value="Informatique">Informatique</option>
+        <option value="Français">Français</option>
+        <option value="Histoire">Histoire</option>
+        <option value="Chimie">Chimie</option>
+      </select>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th data-i18n="course">Cours</th>
+          <th data-i18n="date">Date</th>
+          <th data-i18n="room">Salle</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+
+    <div class="pagination">
+      <button onclick="prevPage()" data-i18n="previous">Précédent</button>
+      <span id="pageInfo">Page 1</span>
+      <button onclick="nextPage()" data-i18n="next">Suivant</button>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+   <script src="js/models.js"></script>
+  <script src="js/permissions.js"></script> 
+  <script src="js/i18n.js"></script>
+  <script src="js/exams.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

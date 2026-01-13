@@ -1,0 +1,157 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f4f8;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+  color: #1a5276;
+  margin-bottom: 25px;
+}
+
+/* ===== Formulaire ===== */
+form#studentForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+form#studentForm input,
+form#studentForm button {
+  padding: 10px;
+  flex: 1 1 180px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form#studentForm button {
+  background-color: #1a5276;
+  color: white;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+form#studentForm button:hover {
+  background-color: #154360;
+}
+
+/* ===== Filtres et outils ===== */
+.filters,
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.filters label {
+  font-weight: bold;
+  color: #1a5276;
+}
+
+.filters select,
+.tools input,
+.tools button {
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+/* ===== Table ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+th, td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background-color: #1a5276;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+/* ===== Boutons de table ===== */
+button.edit {
+  background-color: #28b463;
+}
+button.delete {
+  background-color: #e74c3c;
+}
+button.details {
+  background-color: #8e44ad;
+}
+
+button.edit,
+button.delete,
+button.details {
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+  transition: opacity 0.3s ease;
+}
+
+button.edit:hover,
+button.delete:hover,
+button.details:hover {
+  opacity: 0.8;
+}
+
+/* ===== Pagination ===== */
+.pagination {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.pagination button {
+  padding: 8px 15px;
+  margin: 0 5px;
+  background-color: #1a5276;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.pagination button:hover {
+  background-color: #154360;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  form#studentForm,
+  .tools,
+  .filters {
+    flex-direction: column;
+  }
+
+  form#studentForm input,
+  .tools input,
+  .tools button,
+  .filters select {
+    width: 100%;
+  }
+}

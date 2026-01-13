@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyManager - Logs</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/rtl.css" />
+  <link rel="stylesheet" href="css/log.css" />
+
+</head>
+<body>
+<script>
+if (!JSON.parse(localStorage.getItem('currentUser'))?.role === 'admin') {
+  window.location.href = 'dashboard.html';
+}
+</script>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">MyManager</div>
+    <div class="nav-right">
+      <select onchange="changeLang(this.value)">
+        <option value="fr">🇫🇷 Français</option>
+        <option value="ar">🇲🇦 العربية</option>
+        <option value="en">🇺🇸 English</option>
+      </select>
+      <button onclick="logout()" class="logout-btn" data-i18n="logout">Déconnexion</button>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <ul class="sidebar-menu">
+      <li><a href="dashboard.html" data-i18n="dashboard">Dashboard</a></li>
+      <li><a href="students.html" data-i18n="students">Étudiants</a></li>
+      <li><a href="teachers.html" data-i18n="teachers">Professeurs</a></li>
+      <li><a href="courses.html" data-i18n="courses">Cours</a></li>
+      <li><a href="rooms.html" data-i18n="rooms">Salles</a></li>
+      <li><a href="exams.html" data-i18n="exams">Examens</a></li>
+      <li><a href="logs.html" class="active"> Logs</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="logs-container">
+      <div class="logs-header">
+        <h1> Historique des Actions</h1>
+        <div class="logs-actions">
+          <button class="btn-refresh" onclick="loadLogs()"> Actualiser</button>
+          <button class="btn-export" onclick="exportLogs()"> Export CSV</button>
+          <button class="btn-clear" onclick="clearLogs()"> Vider</button>
+        </div>
+      </div>
+      
+      <!-- Statistiques -->
+      <div class="stats-grid">
+        <div class="stat-box">
+          <h3 id="totalLogs">0</h3>
+          <p>Total Actions</p>
+        </div>
+        <div class="stat-box">
+          <h3 id="todayLogs">0</h3>
+          <p>Aujourd'hui</p>
+        </div>
+        <div class="stat-box">
+          <h3 id="uniqueUsers">0</h3>
+          <p>Utilisateurs Actifs</p>
+        </div>
+      </div>
+      
+      <!-- Filtres -->
+      <div class="filter-section">
+        <select id="userFilter" onchange="filterLogs()">
+          <option value=""> Tous les utilisateurs</option>
+        </select>
+        
+        <select id="actionFilter" onchange="filterLogs()">
+          <option value=""> Toutes les actions</option>
+          <option value="CREATE"> Création</option>
+          <option value="UPDATE"> Modification</option>
+          <option value="DELETE"> Suppression</option>
+          <option value="EXPORT"> Export</option>
+          <option value="LOGIN"> Connexion</option>
+        </select>
+        
+        <input type="date" id="dateFilter" onchange="filterLogs()" />
+      </div>
+      
+      <!-- Liste des logs -->
+      <div id="logsContainer"></div>
+    </div>
+  </main>
+
+  <script src="js/models.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/permissions.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+  
+  <script>
+    let allLogs = [];
+    
+    //  Charger les logs
+    function loadLogs() {
+      allLogs = JSON.parse(localStorage.getItem('activity_logs') || '[]');
+      allLogs.reverse(); // Plus récents en premier
+      
+      updateStats();
+      populateUserFilter();
+      filterLogs();
+    }
+    
+    //  Mettre à jour les statistiques
+    function updateStats() {
+      document.getElementById('totalLogs').textContent = allLogs.length;
+      
+      // Logs d'aujourd'hui
+      const today = new Date().toDateString();
+      const todayLogs = allLogs.filter(log => {
+        const logDate = new Date(log.timestamp).toDateString();
+        return logDate === today;
+      });
+      document.getElementById('todayLogs').textContent = todayLogs.length;
+      
+      // Utilisateurs uniques
+      const uniqueUsers = [...new Set(allLogs.map(log => log.user))];
+      document.getElementById('uniqueUsers').textContent = uniqueUsers.length;
+    }
+    
+    //  Remplir le filtre utilisateurs
+    function populateUserFilter() {
+      const userFilter = document.getElementById('userFilter');
+      const users = [...new Set(allLogs.map(log => log.user))];
+      
+      userFilter.innerHTML = '<option value=""> Tous les utilisateurs</option>';
+      users.forEach(user => {
+        userFilter.innerHTML += `<option value="${user}">${user}</option>`;
+      });
+    }
+    
+    //  Filtrer les logs
+    function filterLogs() {
+      const userFilter = document.getElementById('userFilter').value;
+      const actionFilter = document.getElementById('actionFilter').value;
+      const dateFilter = document.getElementById('dateFilter').value;
+      
+      let filtered = allLogs.filter(log => {
+        const matchUser = !userFilter || log.user === userFilter;
+        const matchAction = !actionFilter || log.action.includes(actionFilter);
+        
+        let matchDate = true;
+        if (dateFilter) {
+          const logDate = new Date(log.timestamp).toISOString().split('T')[0];
+          matchDate = logDate === dateFilter;
+        }
+        
+        return matchUser && matchAction && matchDate;
+      });
+      
+      displayLogs(filtered);
+    }
+    
+    
+    // Afficher les logs
+    function displayLogs(logs) {
+      const container = document.getElementById('logsContainer');
+      
+      if (logs.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <h3>📭 Aucun log disponible</h3>
+            <p>Les actions effectuées dans l'application apparaîtront ici</p>
+          </div>
+        `;
+        return;
+      }
+      
+      container.innerHTML = logs.map(log => {
+        const actionType = log.action.split('_')[0].toLowerCase();
+        const icon = getActionIcon(log.action);
+        
+        return `
+          <div class="log-item ${actionType}">
+            <div class="log-header">
+              <span class="log-user">${icon} ${log.user}</span>
+              <span class="log-date">${log.date}</span>
+            </div>
+            <div class="log-action">${formatAction(log.action)}</div>
+            <div class="log-details">${log.details}</div>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    //  Formater l'action
+    function formatAction(action) {
+      const actions = {
+        'CREATE_STUDENT': ' Création d\'étudiant',
+        'UPDATE_STUDENT': ' Modification d\'étudiant',
+        'DELETE_STUDENT': ' Suppression d\'étudiant',
+        'CREATE_TEACHER': ' Création de professeur',
+        'UPDATE_TEACHER': ' Modification de professeur',
+        'DELETE_TEACHER': ' Suppression de professeur',
+        'EXPORT_CSV': ' Export CSV',
+        'LOGIN': ' Connexion',
+      };
+      return actions[action] || action;
+    }
+    
+    //  Icône selon l'action
+    function getActionIcon(action) {
+      if (action.includes('CREATE')) return '';
+      if (action.includes('DELETE')) return '';
+      if (action.includes('UPDATE')) return '';
+      if (action.includes('EXPORT')) return '';
+      if (action.includes('LOGIN')) return '';
+      if (action.includes('API')) return '';
+      return '';
+    }
+    
+    // Exporter les logs en CSV
+    function exportLogs() {
+      let csv = 'Utilisateur,Action,Détails,Date\n';
+      allLogs.forEach(log => {
+        csv += `"${log.user}","${log.action}","${log.details}","${log.date}"\n`;
+      });
+      
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `logs_${new Date().toISOString().split('T')[0]}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      alert(' Logs exportés avec succès !');
+    }
+    
+    //  Vider les logs
+    function clearLogs() {
+      if (confirm(' Voulez-vous vraiment supprimer tous les logs ?')) {
+        localStorage.setItem('activity_logs', '[]');
+        loadLogs();
+        alert(' Logs supprimés !');
+      }
+    }
+    
+    //  Initialisation
+    loadLogs();
+  </script>
+</body>
+</html>

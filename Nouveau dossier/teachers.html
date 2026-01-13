@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyManager - Professeurs</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/rtl.css">
+  <link rel="stylesheet" href="css/teachers.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">MyManager</div>
+    <div class="nav-actions">
+      <select onchange="changeLang(this.value)">
+        <option value="fr">🇫🇷 FR</option>
+        <option value="ar">🇲🇦 AR</option>
+        <option value="en">🇺🇸 EN</option>
+      </select>
+      <button class="logout-btn" onclick="logout()" data-i18n="logout">Logout</button>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <ul class="sidebar-menu">
+      <li><a href="dashboard.html" data-i18n="dashboard">Dashboard</a></li>
+      <li><a href="students.html" data-i18n="students">Students</a></li>
+      <li><a href="teachers.html" class="active" data-i18n="teachers">Teachers</a></li>
+      <li><a href="courses.html" data-i18n="courses">Courses</a></li>
+      <li><a href="rooms.html" data-i18n="rooms">Rooms</a></li>
+      <li><a href="exams.html" data-i18n="exams">Exams</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+    <h1 data-i18n="teacherManagement">Gestion des Professeurs</h1>
+
+    <!-- Form -->
+    <form id="teacherForm">
+      <input type="hidden" id="teacherId">
+      <input type="text" id="teacherName" data-i18n-placeholder="namePlaceholder" placeholder="Nom complet" required>
+      <input type="email" id="teacherEmail" data-i18n-placeholder="emailPlaceholder" placeholder="Email" required>
+      <input type="text" id="teacherSubject" data-i18n-placeholder="subjectPlaceholder" placeholder="Matière" required>
+      <button type="submit" data-i18n="save">Enregistrer</button>
+    </form>
+
+    <!-- Tools -->
+    <div class="tools">
+      <input type="text" id="searchInput" data-i18n-placeholder="searchPlaceholder" placeholder="Rechercher...">
+      <select id="subjectFilter">
+        <option value="" data-i18n-value="allSubjects">Toutes les matières</option>
+        <option value="Mathématiques">Mathématiques</option>
+        <option value="Physique">Physique</option>
+        <option value="Informatique">Informatique</option>
+        <option value="Français">Français</option>
+        <option value="Histoire">Histoire</option>
+        <option value="Chimie">Chimie</option>
+      </select>
+      <button onclick="sortByName()" data-i18n="sort">Trier A↔Z</button>
+      <button onclick="exportCSV()" data-i18n="exportCSV">Export CSV</button>
+    </div>
+
+    <!-- Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th data-i18n="name">Nom</th>
+          <th data-i18n="email">Email</th>
+          <th data-i18n="subject">Matière</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <button onclick="prevPage()" data-i18n="previous">◀</button>
+      <span id="pageInfo"></span>
+      <button onclick="nextPage()" data-i18n="next">▶</button>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+   <script src="js/models.js"></script>
+   <script src="js/permissions.js"></script> 
+  <script src="js/i18n.js"></script>
+  <script src="js/teachers.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

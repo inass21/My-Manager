@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Détails Étudiant</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      padding: 20px;
+      margin: 0;
+    }
+    .card {
+      max-width: 500px;
+      margin: 40px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #1a5276;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 16px;
+      margin: 12px 0;
+    }
+    strong {
+      color: #1a5276;
+    }
+    button {
+      display: inline-block;
+      margin: 15px 5px 0;
+      padding: 10px 25px;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+    .btn-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    /* Bouton PDF */
+    .btn-pdf {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+    }
+    .btn-pdf:hover {
+      background: linear-gradient(135deg, #c0392b, #a93226);
+      transform: translateY(-2px);
+    }
+    /* Bouton Imprimer */
+    .btn-print {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+    }
+    .btn-print:hover {
+      background: linear-gradient(135deg, #2980b9, #21618c);
+      transform: translateY(-2px);
+    }
+    /* Bouton Retour */
+    .back-btn {
+      background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+    }
+    .back-btn:hover {
+      background: linear-gradient(135deg, #7f8c8d, #6c7a7b);
+      transform: translateY(-2px);
+    }
+
+    @media print {
+      body { background: white; padding: 0; }
+      .card { box-shadow: none; margin: 0; padding: 20px; border: 1px solid #ddd; }
+      button { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Détails de l'Étudiant</h2>
+    <p><strong>Nom :</strong> <span id="name">—</span></p>
+    <p><strong>Email :</strong> <span id="email">—</span></p>
+    <p><strong>Classe :</strong> <span id="class">—</span></p>
+    
+    <div class="btn-container">
+      <button class="btn-pdf" onclick="exportPDF()">Export PDF</button>
+      <button class="btn-print" onclick="window.print()"> Imprimer</button>
+      <button class="back-btn" onclick="goBack()">← Retour</button>
+    </div>
+  </div>
+
+  <!--  Librairie jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  
+  <script src="js/i18n.js"></script>
+  
+  <script>
+    // Remplir les données depuis l'URL
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById("name").textContent = params.get("name") || "—";
+    document.getElementById("email").textContent = params.get("email") || "—";
+    document.getElementById("class").textContent = params.get("class") || "—";
+
+    // Fonction Export PDF avec jsPDF
+    function exportPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      // Récupérer les données
+      const name = document.getElementById("name").textContent;
+      const email = document.getElementById("email").textContent;
+      const classYear = document.getElementById("class").textContent;
+      
+      // En-tête coloré
+      doc.setFillColor(26, 82, 118);
+      doc.rect(0, 0, 210, 35, 'F');
+      
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(22);
+      doc.setFont(undefined, 'bold');
+      doc.text("MyManager", 105, 15, { align: "center" });
+      
+      doc.setFontSize(12);
+      doc.setFont(undefined, 'normal');
+      doc.text("Système de Gestion Scolaire", 105, 25, { align: "center" });
+      
+      // Titre
+      doc.setTextColor(26, 82, 118);
+      doc.setFontSize(18);
+      doc.setFont(undefined, 'bold');
+      doc.text("Détails de l'Étudiant", 105, 50, { align: "center" });
+      
+      // Ligne séparatrice
+      doc.setDrawColor(26, 82, 118);
+      doc.setLineWidth(0.5);
+      doc.line(20, 55, 190, 55);
+      
+      // Informations
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(12);
+      
+      doc.setFont(undefined, 'bold');
+      doc.text("Nom :", 20, 75);
+      doc.setFont(undefined, 'normal');
+      doc.text(name, 50, 75);
+      
+      doc.setFont(undefined, 'bold');
+      doc.text("Email :", 20, 90);
+      doc.setFont(undefined, 'normal');
+      doc.text(email, 50, 90);
+      
+      doc.setFont(undefined, 'bold');
+      doc.text("Classe :", 20, 105);
+      doc.setFont(undefined, 'normal');
+      doc.text(classYear, 50, 105);
+      
+      // Footer
+      doc.setFontSize(10);
+      doc.setTextColor(150, 150, 150);
+      const date = new Date().toLocaleDateString('fr-FR');
+      doc.text("Document généré le " + date, 105, 280, { align: "center" });
+      doc.text("MyManager © 2026 - Tous droits réservés", 105, 287, { align: "center" });
+      
+      // Télécharger avec nom personnalisé
+      const fileName = "etudiant_" + name.replace(/\s+/g, '_') + ".pdf";
+      doc.save(fileName);
+      
+      // Message de confirmation
+      alert('PDF exporté avec succès : ' + fileName);
+    }
+
+    // Fonction retour
+    function goBack() {
+      window.location.href = 'students.html';
+    }
+  </script>
+</body>
+</html>
