@@ -1,4 +1,4 @@
-// 1. Vérifier si l'utilisateur est connecté
+// Vérification si l'utilisateur est connecté
 function checkAuth() {
   const currentPage = window.location.pathname;
   const isLoginPage = currentPage.includes('index.html') || currentPage === '/' || currentPage === '';
@@ -17,7 +17,7 @@ if (typeof window !== 'undefined') {
   }
 }
 
-// 2. Fonction de déconnexion
+//  Fonction de déconnexion
 function logout() {
   const currentLang = localStorage.getItem('lang') || 'fr';
   const confirmMessages = {
@@ -32,7 +32,7 @@ function logout() {
   }
 }
 
-// 3. Toggle sidebar pour mobile
+//  Toggle sidebar pour mobile
 function toggleSidebar() {
   const sidebar = document.querySelector('.sidebar');
   const overlay = document.querySelector('.sidebar-overlay');
@@ -45,7 +45,7 @@ function toggleSidebar() {
   }
 }
 
-// 4. Créer le bouton hamburger et l'overlay au chargement
+//  Création le bouton hamburger et l'overlay au chargement
 document.addEventListener('DOMContentLoaded', () => {
   // Ne pas créer le menu sur la page de login
   if (window.location.pathname.includes('index.html') || 
