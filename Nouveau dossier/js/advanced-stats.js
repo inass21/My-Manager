@@ -80,7 +80,7 @@ function generateActivityTimeline() {
     `;
   });
   
-  // ✅ Derniers professeurs (2 max) - CORRECTION ICI
+  //  Derniers professeurs (2 max) 
   const lastTeachers = teachers.slice(-2).reverse();
   lastTeachers.forEach(teacher => {
     const timeAgo = getTimeAgo(teachersTime);  
