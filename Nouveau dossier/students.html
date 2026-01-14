@@ -72,7 +72,8 @@
              placeholder="Rechercher par nom..." />
       <button type="button" onclick="sortByName()" data-i18n="sort">Trier A ↔ Z</button>
       <button type="button" onclick="exportCSV()" data-i18n="exportCSV">Export CSV</button>
-      
+      <button type="button" onclick="loadFromAPI()"> API Externe</button>
+      <button type="button" onclick="testClasses()"> Test Classes</button>
     </div>
 
     <!-- Tableau -->
@@ -97,12 +98,10 @@
     </div>
   </main>
 
-
-   <script src="js/models.js"></script>
+  <script src="js/models.js"></script>
   <script src="js/permissions.js"></script> 
   <script src="js/i18n.js"></script>
   <script src="js/students.js"></script>
   <script src="js/main.js"></script>
-
 </body>
 </html>
