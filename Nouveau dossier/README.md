@@ -60,7 +60,7 @@ L’application permet d’administrer les principales entités d’un établiss
 ### En ligne
 
 Lien de démonstration :
-[https://votre-url-ici.vercel.app](https://votre-url-ici.vercel.app)
+[my-manager-kohl.vercel.appp)
 
 ### En local
 
